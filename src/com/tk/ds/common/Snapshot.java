@@ -9,9 +9,12 @@ public class Snapshot {
 	public Snapshot(DsUi snapshotUi) {
 		this.snapshotUi = snapshotUi;
 	}
-
+	public void sendMarker(){
+		// To send marker
+	}
 	void updateInfoPanel(String info) {
-
+snapshotUi.updateInfo(info);
+		
 	}
 
 }
