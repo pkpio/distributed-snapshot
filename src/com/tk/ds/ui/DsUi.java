@@ -5,6 +5,12 @@
  */
 package com.tk.ds.ui;
 
+import java.awt.GridLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import com.tk.ds.common.Message;
 import com.tk.ds.process.SendMsg;
 
@@ -28,6 +34,9 @@ public class DsUi extends javax.swing.JFrame {
 	private javax.swing.JButton snapshotButton1;
 	private javax.swing.JButton snapshotButton2;
 	private javax.swing.JButton snapshotButton3;
+	private javax.swing.JTextField accountBalance1;
+	private javax.swing.JTextField accountBalance2;
+	private javax.swing.JTextField accountBalance3;
 	private javax.swing.JLabel infoLabel;
 
 
@@ -60,6 +69,12 @@ public class DsUi extends javax.swing.JFrame {
 		accountLabel3 = new javax.swing.JLabel();
 		snapshotButton3 = new javax.swing.JButton();
 		infoLabel = new javax.swing.JLabel();
+		accountBalance1=new JTextField("0");
+		accountBalance1.setEditable(false);
+		accountBalance2=new JTextField("0");
+		accountBalance2.setEditable(false);
+		accountBalance3=new JTextField("0");
+		accountBalance3.setEditable(false);
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle("DistributedSnapshot");
@@ -91,19 +106,16 @@ public class DsUi extends javax.swing.JFrame {
 			}
 		});
 
-		javax.swing.GroupLayout accountPanel1Layout = new javax.swing.GroupLayout(accountPanel1);
+		GridLayout accountPanel1Layout = new GridLayout(3,1);
+		
 		accountPanel1.setLayout(accountPanel1Layout);
-		accountPanel1Layout
-				.setHorizontalGroup(accountPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(accountPanel1Layout.createSequentialGroup().addComponent(accountLable1).addGap(0, 0,
-								Short.MAX_VALUE))
-				.addGroup(accountPanel1Layout.createSequentialGroup().addGap(35, 35, 35).addComponent(snapshotButton1)
-						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		accountPanel1Layout.setVerticalGroup(accountPanel1Layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(accountPanel1Layout.createSequentialGroup().addComponent(accountLable1)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-						.addComponent(snapshotButton1).addGap(25, 25, 25)));
+		accountPanel1.add(accountLable1);
+		GridLayout accBalanceLayout1= new GridLayout(1, 2);
+		JPanel balancePanle1= new JPanel(accBalanceLayout1);
+		balancePanle1.add(new JLabel("Account balance ($)"));
+		balancePanle1.add(accountBalance1);
+		accountPanel1.add(balancePanle1);
+		accountPanel1.add(snapshotButton1);
 
 		accountPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -116,20 +128,16 @@ public class DsUi extends javax.swing.JFrame {
 			}
 		});
 
-		javax.swing.GroupLayout accountPanel2Layout = new javax.swing.GroupLayout(accountPanel2);
+		GridLayout accountPanel2Layout = new GridLayout(3,1);
+		
 		accountPanel2.setLayout(accountPanel2Layout);
-		accountPanel2Layout
-				.setHorizontalGroup(accountPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(accountPanel2Layout.createSequentialGroup().addComponent(accountLabel2).addGap(0, 0,
-								Short.MAX_VALUE))
-				.addGroup(accountPanel2Layout.createSequentialGroup().addGap(36, 36, 36).addComponent(snapshotButton2)
-						.addContainerGap(33, Short.MAX_VALUE)));
-		accountPanel2Layout
-				.setVerticalGroup(
-						accountPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addGroup(accountPanel2Layout.createSequentialGroup().addComponent(accountLabel2)
-										.addGap(26, 26, 26).addComponent(snapshotButton2)
-										.addGap(0, 45, Short.MAX_VALUE)));
+		accountPanel2.add(accountLabel2);
+		GridLayout accBalanceLayout2= new GridLayout(1, 2);
+		JPanel balancePanle2= new JPanel(accBalanceLayout2);
+		balancePanle2.add(new JLabel("Account balance ($)"));
+		balancePanle2.add(accountBalance2);
+		accountPanel2.add(balancePanle2);
+		accountPanel2.add(snapshotButton2);
 
 		accountPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -142,23 +150,17 @@ public class DsUi extends javax.swing.JFrame {
 			}
 		});
 
-		javax.swing.GroupLayout accountPanel3Layout = new javax.swing.GroupLayout(accountPanel3);
+		GridLayout accountPanel3Layout = new GridLayout(3,1);
+		
 		accountPanel3.setLayout(accountPanel3Layout);
-		accountPanel3Layout
-				.setHorizontalGroup(
-						accountPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addGroup(accountPanel3Layout.createSequentialGroup().addComponent(accountLabel3)
-										.addGap(0, 0, Short.MAX_VALUE))
-								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-										accountPanel3Layout.createSequentialGroup()
-												.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(snapshotButton3).addGap(35, 35, 35)));
-		accountPanel3Layout
-				.setVerticalGroup(
-						accountPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addGroup(accountPanel3Layout.createSequentialGroup().addComponent(accountLabel3)
-										.addGap(36, 36, 36).addComponent(snapshotButton3)
-										.addGap(0, 42, Short.MAX_VALUE)));
+		accountPanel3.add(accountLabel3);
+		GridLayout accBalanceLayout3= new GridLayout(1, 2);
+		JPanel balancePanle3= new JPanel(accBalanceLayout3);
+		balancePanle3.add(new JLabel("Account balance ($)"));
+		balancePanle3.add(accountBalance3);
+		accountPanel3.add(balancePanle3);
+		accountPanel3.add(snapshotButton3);
+		
 
 		javax.swing.GroupLayout ControlPanelLayout = new javax.swing.GroupLayout(ControlPanel);
 		ControlPanel.setLayout(ControlPanelLayout);
@@ -269,9 +271,19 @@ public class DsUi extends javax.swing.JFrame {
 		});
 	}
 
+	public void updateAccountBalance(String accountBalance,int accountNumber){
+		if(accountNumber==1)
+		accountBalance1.setText(accountBalance);
+		if(accountNumber==2)
+			accountBalance2.setText(accountBalance);
+		if(accountNumber==3)
+			accountBalance3.setText(accountBalance);
+			
+	}
 	public void updateInfo(String info) {
 		System.out.println("GUI :" + info);
 		infoPanel.append(info);
+		updateAccountBalance(100+"", 2);
 	}
 
 }
