@@ -48,7 +48,7 @@ public class UiMessageHandler implements Runnable {
 						updateListener.updateInfo(msg.getLogMessage());
 
 						// Method to change account balance
-						updateListener.updateAccountBalance(msg.getBalance(), msg.getProcess());
+						updateListener.updateAccountBalance(msg.getBalance(), msg.getSender());
 					}
 
 				} catch (ClassCastException e) {
