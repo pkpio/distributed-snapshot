@@ -33,6 +33,10 @@ public class Sender extends Process implements Runnable {
 	 */
 	public void sendMessageToUi(String msg) {
 		try {
+			// Close the previous socket if left open
+			if(sendSocket != null && !sendSocket.isClosed())
+				sendSocket.close();
+			
 			sendSocket = new DatagramSocket();
 			InetAddress IPAddress = InetAddress.getByName(Constants.HOST_ADDR);
 			byte[] sendData = new byte[1024];
@@ -40,7 +44,7 @@ public class Sender extends Process implements Runnable {
 			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress,
 					Constants.PORT_LISTEN_GUI);
 			sendSocket.send(sendPacket);
-			sendSocket.close();
+			// sendSocket.close();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
@@ -80,6 +84,10 @@ public class Sender extends Process implements Runnable {
 	 */
 	public void broadCastMessage(Message message) {
 		try {
+			// Close the previous socket if left open
+			if(sendSocket != null && !sendSocket.isClosed())
+				sendSocket.close();
+			
 			sendSocket = new DatagramSocket();
 			InetAddress IPAddress = InetAddress.getByName(Constants.HOST_ADDR);
 			// Thread.sleep(Constants.THREAD_TIME_OUT);
@@ -92,7 +100,7 @@ public class Sender extends Process implements Runnable {
 						Constants.PORT_LISTEN_GUI + i);
 				sendSocket.send(sendPacket);
 				os.close();
-				sendSocket.close();
+				//sendSocket.close();
 			}
 
 		} catch (IOException e) {
@@ -106,6 +114,10 @@ public class Sender extends Process implements Runnable {
 	 */
 	public void sendMessage(Message message) {
 		try {
+			// Close the previous socket if left open
+			if(sendSocket != null && !sendSocket.isClosed())
+				sendSocket.close();
+			
 			sendSocket = new DatagramSocket();
 			InetAddress IPAddress = InetAddress.getByName(Constants.HOST_ADDR);
 			// Thread.sleep(Constants.THREAD_TIME_OUT);
@@ -119,7 +131,7 @@ public class Sender extends Process implements Runnable {
 				sendSocket.send(sendPacket);
 				os.close();
 				// Thread.sleep(Constants.THREAD_TIME_OUT);
-				sendSocket.close();
+				// sendSocket.close();
 			}
 
 		} catch (IOException e) {

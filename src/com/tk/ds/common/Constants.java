@@ -3,9 +3,14 @@ package com.tk.ds.common;
 
 public class Constants {
 	/**
-	 * Thread time out period
+	 * Thread min. time out for sleep
 	 */
-	public static final long THREAD_TIME_OUT =5000;
+	public static final long SLEEP_MIN_TIME = 1500;
+	
+	/**
+	 * Thread min. time out for sleep
+	 */
+	public static final long SLEEP_MAX_TIME = 6000;
 
 
 	/**

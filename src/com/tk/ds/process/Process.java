@@ -14,9 +14,11 @@ public class Process {
 	 */
 	protected int processId;
 	/**
-	 * amount available in the account
+	 * amount available in the account and it's lock
 	 */
-	int accounBalance;
+	int accountBalance;
+	Object balanceLock = new Object();
+	
 	/**
 	 * Queue to which Transaction messages are sent
 	 */
@@ -53,12 +55,16 @@ public class Process {
 		this.processId = processId;
 	}
 
-	public int getAccounBalance() {
-		return accounBalance;
+	public int getAccountBalance() {
+		synchronized (balanceLock){
+			return accountBalance;
+		}
 	}
 
-	public void setAccounBalance(int accounBalance) {
-		this.accounBalance = accounBalance;
+	public void setAccountBalance(int accounBalance) {
+		synchronized (balanceLock){
+			this.accountBalance = accounBalance;
+		}
 	}
 
 	// Processes can send marker
@@ -67,10 +73,9 @@ public class Process {
 	}
 
 	public void init(int processId) {
-
 		queue = new MessageQueue();
 		setProcessId(processId);
-		setAccounBalance(ThreadLocalRandom.current().nextInt(10, 200000 + 1));
+		setAccountBalance(ThreadLocalRandom.current().nextInt(10, 200000 + 1));
 
 		try {
 			sendSocket = new DatagramSocket();
@@ -78,23 +83,19 @@ public class Process {
 				
 				receiveSocket = new DatagramSocket(Constants.PORT_LISTEN_GUI+processId);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		System.out.println("Initial balance " + getAccounBalance());
+		System.out.println("Initial balance " + getAccountBalance());
 		Thread S = new Thread(new Sender("Sender", this));
 		S.start();
 		Thread R = new Thread(new Receiver("Receiver", this));
 		R.start();
 		Thread T = new Thread(new Worker("TxManager", this));
 		T.start();
-
 	}
 
 	public static void main(String args[]) {

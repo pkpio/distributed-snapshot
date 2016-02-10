@@ -2,8 +2,8 @@ package com.tk.ds.process;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.tk.ds.common.Constants;
 import com.tk.ds.common.Message;
+import com.tk.ds.common.Util;
 
 class Worker extends Process implements Runnable {
 	private String threadName;
@@ -15,41 +15,43 @@ class Worker extends Process implements Runnable {
 
 	}
 
+	/**
+	 * Forever randomly sends out money from account to other processes.
+	 */
 	public void run() {
 		while (true) {
+			// Sleep for a random time
+			Util.sleepThreadRandom();
+			
 			for (int i = 1; i < 4; i++) {
-				if (processes.getProcessId() != i && processes.getAccounBalance() > 0)
+				if (processes.getProcessId() != i && processes.getAccountBalance() > 0)
 					try {
-						/*
-						 * Prepare message and set marker and Sendmarker fields false
-						 */
-						Message transactionMessage = new Message();
-						transactionMessage.setProcessId(i);
-						transactionMessage.setMarker(false);
-						transactionMessage.setSenderProcess(processes.getProcessId());
-						transactionMessage.setSendMarkerRequest(false); // only packet sent
-															// by
-															// Gui
-															// will have this
-															// set
-						int amountTobeTransferred = ThreadLocalRandom.current().nextInt(1, 300 + 1);
-						if (amountTobeTransferred > processes.getAccounBalance())
-							amountTobeTransferred = processes.getAccounBalance();
-						transactionMessage.setAmount(amountTobeTransferred);
-						synchronized (transactionMessage) {
-							processes.setAccounBalance(processes.getAccounBalance() - transactionMessage.getAmount());
-						}
 						
-						processes.getQueue().add(transactionMessage);
-						new Sender().sendMessageToUi("[DEBIT ] From "+processes.getProcessId() + " To " + transactionMessage.getProcessId() + " ,Amount : $"
-								+ transactionMessage.getAmount() );
-						Thread.sleep(Constants.THREAD_TIME_OUT);
+						// Decide on the amount and prepare a packet to be sent
+						int amountToSend = ThreadLocalRandom.current().nextInt(1, 300 + 1);
+						if (amountToSend > processes.getAccountBalance())
+							amountToSend = processes.getAccountBalance();
+						Message msg = new Message(processes.getProcessId(), i, amountToSend);
+						
+						// Update the balance of this process
+						processes.setAccountBalance(processes.getAccountBalance() - msg.getAmount());
+						
+						// Notify the GUI about this event
+						new Sender().sendMessageToUi("[DEBIT ]"
+								+ " From " + msg.getSender() 
+								+ " To " + msg.getReceiver()
+								+ " Amount : $" + msg.getAmount());
+						
+						// Add message to the queue for sending out
+						processes.getQueue().add(msg);
+						
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 			}
 		}
+		// End while
 	}
+	
 
 }

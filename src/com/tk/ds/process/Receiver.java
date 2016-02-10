@@ -4,46 +4,43 @@ import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 
-import com.tk.ds.common.Constants;
 import com.tk.ds.common.Message;
 
 class Receiver extends Process implements Runnable {
 	private String threadName;
-	Process processes;
+	Process process;
 
 	public Receiver(String name, Process processes) {
-		this.processes = processes;
+		this.process = processes;
 		threadName = name;
-		System.out.println("Creating " + threadName);
+		System.out.println("Starting receiver for : " + threadName);
 	}
 
+	
+	/**
+	 * Forever listens for new messages on the listen port of this process.
+	 */
 	public void run() {
 
 		while (true) {
-			// recv msg
 			try {
-
 				byte[] recvBuf = new byte[5000];
 				Message msg = null;
 				DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
-				processes.getServerSocket().receive(packet);
+				process.getServerSocket().receive(packet);
 				byte[] data = packet.getData();
 				ByteArrayInputStream in = new ByteArrayInputStream(data);
 				ObjectInputStream is = new ObjectInputStream(in);
 				try {
-
 					msg = (Message) is.readObject();
-					// check if its is marker
-					if(msg.isMarker()){
-						handleMarker(msg);
-					}
+
 					// if not marker check if it is for this process
-					if (processes.getProcessId() == msg.getProcessId()) {
+					if (process.getProcessId() == msg.getProcessId()) {
 						// update balance
-						processes.setAccounBalance(processes.getAccounBalance() + msg.getAmount());
+						process.setAccounBalance(process.getAccounBalance() + msg.getAmount());
 						// send msg to gui
 						new Sender().sendMessageToUi("[CREDIT] From " + msg.getSenderProcess() + " To "
-								+ processes.getProcessId() + ", Amount : $" + msg.getAmount());
+								+ process.getProcessId() + ", Amount : $" + msg.getAmount());
 					}
 
 				} catch (ClassNotFoundException e) {
@@ -61,11 +58,6 @@ class Receiver extends Process implements Runnable {
 			
 
 		}
-	}
-
-	private void handleMarker(Message msg) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

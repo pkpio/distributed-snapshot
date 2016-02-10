@@ -3,62 +3,49 @@ package com.tk.ds.common;
 import java.io.Serializable;
 
 public class Message implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3463810144094354773L;
 	
-/**
- * Process which sends transaction will set this  
- */
-	int senderProcess;
-	/**
-	 * Id of the process to which the amount has to be sent
-	 */
-	int processId;
-	/**
-	 * amount to credited
-	 */
-	int amount;
+	int sender; 	// Sending process id
+	int receiver;		// Receiving process id
+	int amount;			// Amount being sent in this message
 	
-	/** Message sent be one of the process upon getting marker request 
-	 * 
-	 */
-	boolean isMarker;
+	public Message(){
+		
+	}
 	
 	/**
-	 * Marker response , Amount will be amount available in the account at that time. sender account id will be process ID. 
+	 * Creates new message
+	 * @param sender
+	 * @param receiver
+	 * @param amount
 	 */
-	boolean sendMarkerRequest;
-	
-	public boolean isMarker() {
-		return isMarker;
+	public Message(int sender, int receiver, int amount) {
+		this.sender = sender;
+		this.receiver = receiver;
+		this.amount = amount;
 	}
-	public void setMarker(boolean isMarker) {
-		this.isMarker = isMarker;
+
+	public int getSender() {
+		return sender;
 	}
-	public int getProcessId() {
-		return processId;
+
+	public void setSender(int sender) {
+		this.sender = sender;
 	}
-	public void setProcessId(int processId) {
-		this.processId = processId;
+
+	public int getReceiver() {
+		return receiver;
 	}
+
+	public void setReceiver(int receiver) {
+		this.receiver = receiver;
+	}
+
 	public int getAmount() {
 		return amount;
 	}
+
 	public void setAmount(int amount) {
 		this.amount = amount;
-	}
-	public boolean isSendMarkerRequest() {
-		return sendMarkerRequest;
-	}
-	public void setSendMarkerRequest(boolean sendMarkerRequest) {
-		this.sendMarkerRequest = sendMarkerRequest;
-	}
-	public int getSenderProcess() {
-		return senderProcess;
-	}
-	public void setSenderProcess(int senderProcess) {
-		this.senderProcess = senderProcess;
 	}
 }
