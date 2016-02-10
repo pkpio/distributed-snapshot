@@ -1,18 +1,14 @@
 package com.tk.ds.process;
 
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.util.concurrent.ThreadLocalRandom;
-
 
 import com.tk.ds.common.Constants;
 import com.tk.ds.common.MessageQueue;
 
-import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.SocketException;
-
-public class Processes {
+public class Process {
 	/**
 	 * process ID of the current process
 	 */
@@ -80,7 +76,7 @@ public class Processes {
 			sendSocket = new DatagramSocket();
 			try {
 				
-				receiveSocket = new DatagramSocket(Constants.HOST_PORT_UI_COM+processId);
+				receiveSocket = new DatagramSocket(Constants.PORT_LISTEN_GUI+processId);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -92,18 +88,18 @@ public class Processes {
 		}
 
 		System.out.println("Initial balance " + getAccounBalance());
-		Thread S = new Thread(new SendMsg("Sender", this));
+		Thread S = new Thread(new Sender("Sender", this));
 		S.start();
-		Thread R = new Thread(new RecvMsgs("Receiver", this));
+		Thread R = new Thread(new Receiver("Receiver", this));
 		R.start();
-		Thread T = new Thread(new TransferMoney("TxManager", this));
+		Thread T = new Thread(new Worker("TxManager", this));
 		T.start();
 
 	}
 
 	public static void main(String args[]) {
 		// It should have main function because it will be invoked as new
-		new Processes().init(Integer.parseInt(args[0]));
+		new Process().init(Integer.parseInt(args[0]));
 
 	}
 

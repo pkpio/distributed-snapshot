@@ -24,7 +24,7 @@ public class UiMessageHandler implements Runnable {
 
 	public void run() {
 		try {
-			DatagramSocket serverSocket = new DatagramSocket(Constants.HOST_PORT_UI_COM);
+			DatagramSocket serverSocket = new DatagramSocket(Constants.PORT_LISTEN_GUI);
             byte[] receiveData = new byte[1024];
             while(true)
                {

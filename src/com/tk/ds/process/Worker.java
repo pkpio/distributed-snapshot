@@ -5,11 +5,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.tk.ds.common.Constants;
 import com.tk.ds.common.Message;
 
-class TransferMoney extends Processes implements Runnable {
+class Worker extends Process implements Runnable {
 	private String threadName;
-	Processes processes;
+	Process processes;
 
-	public TransferMoney(String name, Processes processes) {
+	public Worker(String name, Process processes) {
 		threadName = name;
 		this.processes = processes;
 
@@ -41,7 +41,7 @@ class TransferMoney extends Processes implements Runnable {
 						}
 						
 						processes.getQueue().add(transactionMessage);
-						new SendMsg().sendMessageToUi("[DEBIT ] From "+processes.getProcessId() + " To " + transactionMessage.getProcessId() + " ,Amount : $"
+						new Sender().sendMessageToUi("[DEBIT ] From "+processes.getProcessId() + " To " + transactionMessage.getProcessId() + " ,Amount : $"
 								+ transactionMessage.getAmount() );
 						Thread.sleep(Constants.THREAD_TIME_OUT);
 					} catch (Exception e) {

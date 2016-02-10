@@ -34,26 +34,25 @@
 		<parallel>
 			<java jar="${dist}/Dsnapshot.jar" fork="true" failonerror="true" />
 			<sequential>
-				<java classname="com.tk.ds.process.Processes">
+				<java classname="com.tk.ds.process.Process">
 					<arg value="1" />
 					<classpath>
 						<pathelement path="${build}" />
 					</classpath>
 				</java>
-				<java classname="com.tk.ds.process.Processes">
+				<java classname="com.tk.ds.process.Process">
 					<arg value="2" />
 					<classpath>
 						<pathelement path="${build}" />
 					</classpath>
 				</java>
-				<java classname="com.tk.ds.process.Processes">
+				<java classname="com.tk.ds.process.Process">
 					<arg value="3" />
 					<classpath>
 						<pathelement path="${build}" />
 					</classpath>
 				</java>
 			</sequential>
-
 		</parallel>
 
 	</target>

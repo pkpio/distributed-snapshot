@@ -7,11 +7,11 @@ import java.net.DatagramPacket;
 import com.tk.ds.common.Constants;
 import com.tk.ds.common.Message;
 
-class RecvMsgs extends Processes implements Runnable {
+class Receiver extends Process implements Runnable {
 	private String threadName;
-	Processes processes;
+	Process processes;
 
-	public RecvMsgs(String name, Processes processes) {
+	public Receiver(String name, Process processes) {
 		this.processes = processes;
 		threadName = name;
 		System.out.println("Creating " + threadName);
@@ -42,7 +42,7 @@ class RecvMsgs extends Processes implements Runnable {
 						// update balance
 						processes.setAccounBalance(processes.getAccounBalance() + msg.getAmount());
 						// send msg to gui
-						new SendMsg().sendMessageToUi("[CREDIT] From " + msg.getSenderProcess() + " To "
+						new Sender().sendMessageToUi("[CREDIT] From " + msg.getSenderProcess() + " To "
 								+ processes.getProcessId() + ", Amount : $" + msg.getAmount());
 					}
 

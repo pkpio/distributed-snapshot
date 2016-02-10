@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.tk.ds.common.Message;
-import com.tk.ds.process.SendMsg;
+import com.tk.ds.process.Sender;
 
 /**
  *
@@ -229,7 +229,7 @@ mainFrame.setVisible(true);
 		Message markerRequest= new Message();
 		markerRequest.setProcessId(1);
 		markerRequest.setSendMarkerRequest(true);
-		new SendMsg().broadCastMessage(new Message());
+		new Sender().broadCastMessage(new Message());
 		
 	}
 
@@ -237,14 +237,14 @@ mainFrame.setVisible(true);
 		Message markerRequest= new Message();
 		markerRequest.setProcessId(2);
 		markerRequest.setSendMarkerRequest(true);
-		new SendMsg().broadCastMessage(new Message());
+		new Sender().broadCastMessage(new Message());
 	}
 
 	private void snapshotButton3ActionPerformed(java.awt.event.ActionEvent evt) {
 		Message markerRequest= new Message();
 		markerRequest.setProcessId(3);
 		markerRequest.setSendMarkerRequest(true);
-		new SendMsg().broadCastMessage(new Message());
+		new Sender().broadCastMessage(new Message());
 	}
 
 	/**
