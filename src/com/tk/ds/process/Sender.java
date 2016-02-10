@@ -22,7 +22,6 @@ public class Sender extends Process implements Runnable {
 	}
 
 	public Sender() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -30,6 +29,13 @@ public class Sender extends Process implements Runnable {
 	 * to the corresponding process
 	 */
 	public void run() {
+		// Send current balance to GUI
+		Util.sleepThread(1000);
+		sendToGUI(new MessageGUI(
+				processes.getProcessId(), 
+				processes.getAccountBalance(), 
+				"INIT balance P" + processes.getProcessId() + " : $" + processes.getAccountBalance()));
+		
 		while (true) {
 			// Sleep for random time
 			Util.sleepThreadRandom();
