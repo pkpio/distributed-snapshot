@@ -35,7 +35,7 @@ public class Processes {
 	}
 
 	protected DatagramSocket sendSocket;
-	protected MulticastSocket receiveSocket;
+	protected DatagramSocket receiveSocket;
 
 	public DatagramSocket getClientSocket() {
 		return sendSocket;
@@ -79,12 +79,8 @@ public class Processes {
 		try {
 			sendSocket = new DatagramSocket();
 			try {
-				/**
-				 * uses brodcasting , more than 1 client can listen to single port
-				 */
-				receiveSocket = new MulticastSocket(Constants.HOST_PORT);
-				 InetAddress group =InetAddress.getByName(Constants.HOST_ADDR);
-				// receiveSocket.joinGroup(group);
+				
+				receiveSocket = new DatagramSocket(Constants.HOST_PORT_UI_COM+processId);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

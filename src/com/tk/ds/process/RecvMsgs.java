@@ -50,7 +50,6 @@ class RecvMsgs extends Processes implements Runnable {
 
 					e.printStackTrace();
 				}
-				Thread.sleep(Constants.THREAD_TIME_OUT);
 
 			} catch (Exception e) {
 

@@ -19,5 +19,8 @@ public class Constants {
 	 */
 	public static int HOST_PORT_UI_COM = 9876;
 	
-	public static int HOST_PORT = 9877;
+	public static int HOST_PORT1 = 9877;
+	public static int HOST_PORT2 = 9878;
+	public static int HOST_PORT3 = 9879;
+	
 }
