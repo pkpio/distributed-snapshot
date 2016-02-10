@@ -36,13 +36,10 @@ public class SendMsg extends Processes implements Runnable {
 					Constants.HOST_PORT_UI_COM);
 			sendSocket.send(sendPacket);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -59,9 +56,9 @@ public class SendMsg extends Processes implements Runnable {
 				broadCastMessage(message);
 			}
 			try {
+				// -TODO- Use random sleep time here
 				Thread.sleep(Constants.THREAD_TIME_OUT);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
