@@ -1,8 +1,6 @@
 package com.tk.ds.common;
 
-import java.io.Serializable;
-
-public class MessageMoney implements Serializable{
+public class MessageMoney extends Message {
 	private static final long serialVersionUID = 3463810144094354773L;
 	
 	int sender; 	// Sending process id
@@ -10,7 +8,7 @@ public class MessageMoney implements Serializable{
 	int amount;			// Amount being sent in this message
 	
 	public MessageMoney(){
-		
+		super.messageType = Type.MONEY;		
 	}
 	
 	/**
@@ -20,6 +18,7 @@ public class MessageMoney implements Serializable{
 	 * @param amount
 	 */
 	public MessageMoney(int sender, int receiver, int amount) {
+		super.messageType = Type.MONEY;
 		this.sender = sender;
 		this.receiver = receiver;
 		this.amount = amount;

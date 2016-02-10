@@ -28,32 +28,21 @@ class Receiver extends Process implements Runnable {
 			try {
 				// Read the packet from incoming socket connection
 				byte[] recvBuf = new byte[5000];
-				MessageMoney msg = null;
 				DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
 				process.getServerSocket().receive(packet);
 				byte[] data = packet.getData();
+				
+				// Read object in the stream
 				ByteArrayInputStream in = new ByteArrayInputStream(data);
 				ObjectInputStream is = new ObjectInputStream(in);
+				Object rObj =  is.readObject();
 				
 				try {
-					msg = (MessageMoney) is.readObject();
-
-					// Accept only messages addressed to us
-					if (process.getProcessId() == msg.getReceiver()) {
-						System.out.println(msg.getReceiver() + " <-- " + msg.getSender() + " : " + msg.getAmount());
-						
-						// update balance
-						process.setAccountBalance(process.getAccountBalance() + msg.getAmount());
-						
-						// Notify event to GUI
-						new Sender().sendToGUI(new MessageGUI(
-								process.getProcessId(), 
-								process.getAccountBalance(),
-								"GOT  " + msg.getReceiver() + " <-- " + msg.getSender() + " : $" + msg.getAmount()));
-					}
-
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
+					// Check if it's a money message
+					MessageMoney msg = (MessageMoney)rObj;
+					processMoney(msg);
+				} catch (ClassCastException e) {
+					// Check if it's a mark message
 				}
 
 			} catch (Exception e) {
@@ -61,6 +50,25 @@ class Receiver extends Process implements Runnable {
 			}
 		}
 		// End while
+	}
+	
+	/**
+	 * Processes a normal money packet
+	 */
+	void processMoney(MessageMoney msg){
+		// Accept only messages addressed to us
+		if (process.getProcessId() == msg.getReceiver()) {
+			System.out.println(msg.getReceiver() + " <-- " + msg.getSender() + " : " + msg.getAmount());
+			
+			// update balance
+			process.setAccountBalance(process.getAccountBalance() + msg.getAmount());
+			
+			// Notify event to GUI
+			new Sender().sendToGUI(new MessageGUI(
+					process.getProcessId(), 
+					process.getAccountBalance(),
+					"GOT  " + msg.getReceiver() + " <-- " + msg.getSender() + " : $" + msg.getAmount()));
+		}
 	}
 
 }
