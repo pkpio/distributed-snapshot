@@ -1,27 +1,27 @@
 <project>
 
 	<description>
-		TK1 - Programmieraufgabe 4
+		TK1 - Programmieraufgabe 5
 	</description>
-	
+
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	
+
 	<target name="clean">
 		<delete dir="${build}" />
 		<delete dir="${dist}" />
 	</target>
-	
+
 	<target name="init" depends="clean">
 		<tstamp />
 		<mkdir dir="${build}" />
 	</target>
-	
+
 	<target name="compile" depends="init">
 		<javac srcdir="${src}" destdir="${build}" />
 	</target>
-	
+
 	<target name="jar" depends="compile">
 		<jar destfile="${dist}/Dsnapshot.jar" basedir="${build}">
 			<manifest>
@@ -29,14 +29,35 @@
 			</manifest>
 		</jar>
 	</target>
-	
+
 	<target name="run" depends="jar">
 		<parallel>
 			<java jar="${dist}/Dsnapshot.jar" fork="true" failonerror="true" />
+			<sequential>
+				<java classname="com.tk.ds.process.Processes">
+					<arg value="1" />
+					<classpath>
+						<pathelement path="${build}" />
+					</classpath>
+				</java>
+				<java classname="com.tk.ds.process.Processes">
+					<arg value="2" />
+					<classpath>
+						<pathelement path="${build}" />
+					</classpath>
+				</java>
+				<java classname="com.tk.ds.process.Processes">
+					<arg value="3" />
+					<classpath>
+						<pathelement path="${build}" />
+					</classpath>
+				</java>
+			</sequential>
+
 		</parallel>
+
 	</target>
-	
 	<target name="default" depends="run">
 	</target>
-	
+
 </project>
