@@ -51,7 +51,7 @@ public class UiMessageHandler implements Runnable {
 						updateListener.updateAccountBalance(msg.getBalance(), msg.getProcess());
 					}
 
-				} catch (ClassNotFoundException e) {
+				} catch (ClassCastException e) {
 					e.printStackTrace();
 				}
 			}

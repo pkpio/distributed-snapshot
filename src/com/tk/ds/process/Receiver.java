@@ -4,7 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 
+import com.tk.ds.common.Message;
 import com.tk.ds.common.MessageGUI;
+import com.tk.ds.common.MessageMark;
 import com.tk.ds.common.MessageMoney;
 
 class Receiver extends Process implements Runnable {
@@ -37,12 +39,17 @@ class Receiver extends Process implements Runnable {
 				ObjectInputStream is = new ObjectInputStream(in);
 				Object rObj =  is.readObject();
 				
+				// Process message based on it's type
 				try {
-					// Check if it's a money message
-					MessageMoney msg = (MessageMoney)rObj;
-					processMoney(msg);
+					Message msg = (Message)rObj;
+
+					if(msg.getMessageType() == Message.Type.MONEY)
+						processMoney((MessageMoney) rObj);
+					else if(msg.getMessageType() == Message.Type.MARK)
+						processMark((MessageMark) rObj);
+					
 				} catch (ClassCastException e) {
-					// Check if it's a mark message
+					System.out.println("Unknown object type received!");
 				}
 
 			} catch (Exception e) {
@@ -70,5 +77,14 @@ class Receiver extends Process implements Runnable {
 					"GOT  " + msg.getReceiver() + " <-- " + msg.getSender() + " : $" + msg.getAmount()));
 		}
 	}
+	
+	/**
+	 * Processes a mark packet
+	 */
+	void processMark(MessageMark msg){
+		// -TODO
+	}
+	
+	
 
 }
