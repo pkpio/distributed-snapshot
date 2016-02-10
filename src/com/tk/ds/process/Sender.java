@@ -8,10 +8,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.concurrent.ThreadLocalRandom;
 
 import com.tk.ds.common.Constants;
 import com.tk.ds.common.Message;
+import com.tk.ds.common.Util;
 
 public class Sender extends Process implements Runnable {
 	private String threadName;
@@ -44,7 +44,6 @@ public class Sender extends Process implements Runnable {
 			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress,
 					Constants.PORT_LISTEN_GUI);
 			sendSocket.send(sendPacket);
-			// sendSocket.close();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
@@ -61,50 +60,14 @@ public class Sender extends Process implements Runnable {
 	 */
 	public void run() {
 		while (true) {
-			if (processes.getQueue().hasElements()) {
-				// pop msg from queue
+			// Sleep for random time
+			Util.sleepThreadRandom();
+			
+			// Send element at the head of the queue
+			if (processes.getQueue().hasElements()){
 				Message message = processes.getQueue().remove();
 				sendMessage(message);
-			} else {
-				try {
-					Thread.sleep(ThreadLocalRandom.current().nextLong(10,100));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			}
-		}
-
-	}
-
-	/**
-	 * Broadcast the message to all processes except the GUI. This essentially 
-	 * sends out unicast messages to each process
-	 *  
-	 * @param message
-	 */
-	public void broadCastMessage(Message message) {
-		try {
-			// Close the previous socket if left open
-			if(sendSocket != null && !sendSocket.isClosed())
-				sendSocket.close();
-			
-			sendSocket = new DatagramSocket();
-			InetAddress IPAddress = InetAddress.getByName(Constants.HOST_ADDR);
-			// Thread.sleep(Constants.THREAD_TIME_OUT);
-			for (int i = 1; i < 4; i++) {
-				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-				ObjectOutputStream os = new ObjectOutputStream(outputStream);
-				os.writeObject(message);
-				byte[] sendBuf = outputStream.toByteArray();
-				DatagramPacket sendPacket = new DatagramPacket(sendBuf, sendBuf.length, IPAddress,
-						Constants.PORT_LISTEN_GUI + i);
-				sendSocket.send(sendPacket);
-				os.close();
-				//sendSocket.close();
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -118,21 +81,21 @@ public class Sender extends Process implements Runnable {
 			if(sendSocket != null && !sendSocket.isClosed())
 				sendSocket.close();
 			
+			// Build a socket
 			sendSocket = new DatagramSocket();
 			InetAddress IPAddress = InetAddress.getByName(Constants.HOST_ADDR);
-			// Thread.sleep(Constants.THREAD_TIME_OUT);
-			for (int i = 1; i < 4; i++) {
-				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-				ObjectOutputStream os = new ObjectOutputStream(outputStream);
-				os.writeObject(message);
-				byte[] sendBuf = outputStream.toByteArray();
-				DatagramPacket sendPacket = new DatagramPacket(sendBuf, sendBuf.length, IPAddress,
-						Constants.PORT_LISTEN_GUI + message.getProcessId());
-				sendSocket.send(sendPacket);
-				os.close();
-				// Thread.sleep(Constants.THREAD_TIME_OUT);
-				// sendSocket.close();
-			}
+			
+			// Put message object in a stream
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			ObjectOutputStream os = new ObjectOutputStream(outputStream);
+			os.writeObject(message);
+			
+			// Send stream over the socket
+			byte[] sendBuf = outputStream.toByteArray();
+			DatagramPacket sendPacket = new DatagramPacket(sendBuf, sendBuf.length, IPAddress,
+					Constants.PORT_LISTEN_GUI + message.getReceiver());
+			sendSocket.send(sendPacket);
+			os.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -19,11 +19,13 @@ class Receiver extends Process implements Runnable {
 	
 	/**
 	 * Forever listens for new messages on the listen port of this process.
+	 * -TODO- Handling Mark messages not done!
 	 */
 	public void run() {
 
 		while (true) {
 			try {
+				// Read the packet from incoming socket connection
 				byte[] recvBuf = new byte[5000];
 				Message msg = null;
 				DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
@@ -31,33 +33,32 @@ class Receiver extends Process implements Runnable {
 				byte[] data = packet.getData();
 				ByteArrayInputStream in = new ByteArrayInputStream(data);
 				ObjectInputStream is = new ObjectInputStream(in);
+				
 				try {
 					msg = (Message) is.readObject();
 
-					// if not marker check if it is for this process
-					if (process.getProcessId() == msg.getProcessId()) {
+					// Accept only messages addressed to us
+					if (process.getProcessId() == msg.getReceiver()) {
+						System.out.println("Process " + process.processId 
+								+ " received packet. From : " + msg.getSender() + " Amount : " + msg.getAmount());
+						
+						// Notify event to GUI
+						new Sender().sendMessageToUi("[CREDIT] From " + msg.getSender() + " To "
+								+ msg.getReceiver() + ", Amount : $" + msg.getAmount());
+						
 						// update balance
-						process.setAccounBalance(process.getAccounBalance() + msg.getAmount());
-						// send msg to gui
-						new Sender().sendMessageToUi("[CREDIT] From " + msg.getSenderProcess() + " To "
-								+ process.getProcessId() + ", Amount : $" + msg.getAmount());
+						process.setAccountBalance(process.getAccountBalance() + msg.getAmount());
 					}
 
 				} catch (ClassNotFoundException e) {
-
 					e.printStackTrace();
 				}
 
 			} catch (Exception e) {
 
 			}
-			// check if its sendMraker request and for current process
-			
-			
-			
-			
-
 		}
+		// End while
 	}
 
 }

@@ -12,9 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.tk.ds.common.Message;
-import com.tk.ds.process.Sender;
-
 /**
  *
  * @author kamathar
@@ -226,25 +223,23 @@ mainFrame.setVisible(true);
 	}
 
 	private void snapshotButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-		Message markerRequest= new Message();
-		markerRequest.setProcessId(1);
-		markerRequest.setSendMarkerRequest(true);
-		new Sender().broadCastMessage(new Message());
-		
+		sendMarkMessage(1);
 	}
 
 	private void snapshotButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-		Message markerRequest= new Message();
-		markerRequest.setProcessId(2);
-		markerRequest.setSendMarkerRequest(true);
-		new Sender().broadCastMessage(new Message());
+		sendMarkMessage(2);
 	}
 
 	private void snapshotButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-		Message markerRequest= new Message();
-		markerRequest.setProcessId(3);
-		markerRequest.setSendMarkerRequest(true);
-		new Sender().broadCastMessage(new Message());
+		sendMarkMessage(3);
+	}
+	
+	/**
+	 * Send MARK message to a process
+	 * @param process
+	 */
+	void sendMarkMessage(int process){
+		// -TODO - Finish handling of this
 	}
 
 	/**

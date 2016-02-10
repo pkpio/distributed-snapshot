@@ -36,13 +36,15 @@ class Worker extends Process implements Runnable {
 						// Update the balance of this process
 						processes.setAccountBalance(processes.getAccountBalance() - msg.getAmount());
 						
-						// Notify the GUI about this event
+						// Notify event to GUI
+						System.out.println("Process " + processes.processId + " notified GUI");
 						new Sender().sendMessageToUi("[DEBIT ]"
 								+ " From " + msg.getSender() 
 								+ " To " + msg.getReceiver()
 								+ " Amount : $" + msg.getAmount());
 						
 						// Add message to the queue for sending out
+						System.out.println("Process " + processes.processId + " queued packet");
 						processes.getQueue().add(msg);
 						
 					} catch (Exception e) {
