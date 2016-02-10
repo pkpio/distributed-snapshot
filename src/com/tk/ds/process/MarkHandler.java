@@ -3,7 +3,9 @@ package com.tk.ds.process;
 import java.util.ArrayList;
 
 import com.tk.ds.common.Message;
+import com.tk.ds.common.MessageGUI;
 import com.tk.ds.common.MessageMark;
+import com.tk.ds.common.MessageMoney;
 
 /**
  * Class that handles mark messages and snap-shotting
@@ -33,7 +35,7 @@ public class MarkHandler {
 		if (!stateProcessRecorded) {
 			stateBalance = process.getAccountBalance();
 			stateProcessRecorded = true;
-			
+
 			// Send markers over all other channels
 			process.getQueue().add(new MessageMark(process.getProcessId(), 1));
 			process.getQueue().add(new MessageMark(process.getProcessId(), 2));
@@ -56,11 +58,43 @@ public class MarkHandler {
 
 		// If all the recordings are off, state record complete
 		if (!stateChannel1Recording && !stateChannel2Recording && !stateChannel3Recording) {
-			// Log recorded state
-			System.out.println(
-					"State recording complete : " + process.getProcessId() + " balance : " + stateBalance + " c1 : "
-							+ stateChannel1.size() + " c2 : " + stateChannel2.size() + " c3 : " + stateChannel3.size());
+			// Calculate amount of money in each incoming channel
+			int c1 = 0;
+			int c2 = 0;
+			int c3 = 0;
 
+			for (int i = 0; i < stateChannel1.size(); i++) {
+				Message genMsg = stateChannel1.get(i);
+
+				// Only take money messages
+				if (genMsg.getMessageType() == Message.Type.MONEY)
+					c1 += ((MessageMoney) genMsg).getAmount();
+			}
+
+			for (int i = 0; i < stateChannel2.size(); i++) {
+				Message genMsg = stateChannel2.get(i);
+
+				// Only take money messages
+				if (genMsg.getMessageType() == Message.Type.MONEY)
+					c2 += ((MessageMoney) genMsg).getAmount();
+			}
+
+			for (int i = 0; i < stateChannel3.size(); i++) {
+				Message genMsg = stateChannel3.get(i);
+
+				// Only take money messages
+				if (genMsg.getMessageType() == Message.Type.MONEY)
+					c3 += ((MessageMoney) genMsg).getAmount();
+			}
+
+			// Log recorded state
+			System.out.println("State recording complete : " + process.getProcessId() + " balance : " + stateBalance
+					+ " c1 : " + c1 + " c2 : " + c2 + " c3 : " + c3);
+
+			// Notify UI about this
+			Sender.sendToGUI(
+					new MessageGUI(process.processId, process.accountBalance, "Snapshot at P" + process.getProcessId()
+							+ " - bal : $" + stateBalance + " c1 : $" + c1 + " c2 : $" + c2 + " c3 : $" + c3));
 		}
 
 	}
