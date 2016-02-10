@@ -32,7 +32,7 @@ public class Process {
 		this.queue = queue;
 	}
 
-	protected DatagramSocket sendSocket;
+	protected static DatagramSocket sendSocket;
 	protected DatagramSocket receiveSocket;
 
 	public DatagramSocket getClientSocket() {
@@ -40,7 +40,7 @@ public class Process {
 	}
 
 	public void setClientSocket(DatagramSocket clientSocket) {
-		this.sendSocket = clientSocket;
+		sendSocket = clientSocket;
 	}
 
 	public DatagramSocket getServerSocket() {

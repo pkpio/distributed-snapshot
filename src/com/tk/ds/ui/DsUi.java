@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.tk.ds.common.MessageMark;
+import com.tk.ds.process.Sender;
+
 /**
  *
  * @author kamathar
@@ -236,7 +239,8 @@ public class DsUi implements UiUpdatesListner {
 	 * @param process
 	 */
 	void sendMarkMessage(int process) {
-		// -TODO - Finish handling of this
+		// Build and send a mark message to corresponding process
+		Sender.sendToProcess(new MessageMark(0, process));
 	}
 
 	/**

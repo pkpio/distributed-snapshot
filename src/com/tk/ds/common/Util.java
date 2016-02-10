@@ -6,10 +6,9 @@ public class Util {
 	
 	/**
 	 * Get a random delay between Min and Max in constants
-	 * @return
 	 */
-	public static long getRandomDelay(){
-		return ThreadLocalRandom.current().nextLong(Constants.SLEEP_MIN_TIME, Constants.SLEEP_MAX_TIME + 1);
+	public static long getRandomDelay(long min, long max){
+		return ThreadLocalRandom.current().nextLong(min, max);
 	}
 	
 	/**
@@ -31,7 +30,20 @@ public class Util {
 	 */
 	public static void sleepThreadRandom(){
 		try {
-			Thread.sleep(getRandomDelay());
+			Thread.sleep(getRandomDelay(Constants.SLEEP_MIN_TIME, Constants.SLEEP_MAX_TIME + 1));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Attempts to sleep the calling thread for a random time 
+	 * between 200 and 1000
+	 * @param duration
+	 */
+	public static void sleepThreadCommunication(){
+		try {
+			Thread.sleep(getRandomDelay(200, 1000));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

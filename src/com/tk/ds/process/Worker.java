@@ -38,7 +38,7 @@ class Worker extends Process implements Runnable {
 						process.setAccountBalance(process.getAccountBalance() - msg.getAmount());
 						
 						// Notify event to GUI
-						new Sender().sendToGUI(new MessageGUI(
+						Sender.sendToGUI(new MessageGUI(
 								process.getProcessId(), 
 								process.getAccountBalance(),
 								"SENT " + msg.getSender() + " --> " + msg.getReceiver() + " : $" + msg.getAmount()));
