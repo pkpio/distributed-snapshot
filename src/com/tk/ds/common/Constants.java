@@ -5,12 +5,12 @@ public class Constants {
 	/**
 	 * Thread min. time out for sleep
 	 */
-	public static final long SLEEP_MIN_TIME = 1500;
+	public static final long SLEEP_MIN_TIME = 3000;
 	
 	/**
 	 * Thread min. time out for sleep
 	 */
-	public static final long SLEEP_MAX_TIME = 6000;
+	public static final long SLEEP_MAX_TIME = 8000;
 
 
 	/**

@@ -6,20 +6,20 @@ import java.util.LinkedList;
  * Message queue for sending out messages. Sender will read from the queue and send the messages out.
  */
 public class MessageQueue {
-	public static LinkedList<Message> FIFO = new LinkedList<Message>();
+	public static LinkedList<MessageMoney> FIFO = new LinkedList<MessageMoney>();
 
 	// Add message to the end of queue
-	public void add(Message message) {
+	public void add(MessageMoney message) {
 		FIFO.add(message);
 	}
 
 	// Remove message from head
-	public Message remove() {
+	public MessageMoney remove() {
 		if (FIFO.isEmpty()) {
 			System.out.println("UNDERFLOW");
 			return null;
 		} else {
-			Message message = FIFO.remove();
+			MessageMoney message = FIFO.remove();
 			return message;
 		}
 	}

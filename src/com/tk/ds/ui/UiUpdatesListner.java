@@ -8,6 +8,6 @@ package com.tk.ds.ui;
  *
  */
 public interface UiUpdatesListner {
-	public void updateAccountBalance(String accountBalance,int accountNumber);
+	public void updateAccountBalance(int accountBalance, int accountNumber);
 	public void updateInfo(String info);
 }

@@ -81,7 +81,7 @@ public class Process {
 			sendSocket = new DatagramSocket();
 			try {
 				
-				receiveSocket = new DatagramSocket(Constants.PORT_LISTEN_GUI+processId);
+				receiveSocket = new DatagramSocket(Constants.PORT_LISTEN_GUI + processId);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
