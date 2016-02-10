@@ -56,13 +56,14 @@ public class MarkHandler {
 		if (msg.getSender() == 3 || process.processId == 3)
 			stateChannel3Recording = false;
 
-		// If all the recordings are off, state record complete
+		// If all the recordings are off => state record complete
 		if (!stateChannel1Recording && !stateChannel2Recording && !stateChannel3Recording) {
 			// Calculate amount of money in each incoming channel
 			int c1 = 0;
 			int c2 = 0;
 			int c3 = 0;
 
+			// Count money in channel 1
 			for (int i = 0; i < stateChannel1.size(); i++) {
 				Message genMsg = stateChannel1.get(i);
 
@@ -71,6 +72,7 @@ public class MarkHandler {
 					c1 += ((MessageMoney) genMsg).getAmount();
 			}
 
+			// Count money in channel 2
 			for (int i = 0; i < stateChannel2.size(); i++) {
 				Message genMsg = stateChannel2.get(i);
 
@@ -79,6 +81,7 @@ public class MarkHandler {
 					c2 += ((MessageMoney) genMsg).getAmount();
 			}
 
+			// Count money in channel 3
 			for (int i = 0; i < stateChannel3.size(); i++) {
 				Message genMsg = stateChannel3.get(i);
 
@@ -95,6 +98,15 @@ public class MarkHandler {
 			Sender.sendToGUI(
 					new MessageGUI(process.processId, process.accountBalance, "Snapshot at P" + process.getProcessId()
 							+ " - bal : $" + stateBalance + " c1 : $" + c1 + " c2 : $" + c2 + " c3 : $" + c3));
+			
+			// Reset state
+			stateProcessRecorded = false;
+			stateChannel1Recording = false; // Incoming channel1
+			stateChannel2Recording = false; // Incoming channel2
+			stateChannel3Recording = false; // Incoming channel3
+			stateChannel1.clear();
+			stateChannel2.clear();
+			stateChannel3.clear();
 		}
 
 	}
