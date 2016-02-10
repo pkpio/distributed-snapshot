@@ -25,32 +25,7 @@ public class DsApp {
 		Thread S = new Thread(manager);
 		S.start();
 		snapshotUi.initUi();
-		initProcess();
 	
-	}
-
-	@SuppressWarnings("unused")
-	void initProcess() {
-		ProcessBuilder pb;
-		Process process;
-		String javaHome = System.getProperty("java.home");
-		String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
-		String classpath = System.getProperty("java.class.path");
-		String className = Processes.class.getCanonicalName();
-
-		ProcessBuilder builder;
-		for (int i = 1; i < 4; i++) {
-			try {
-				builder = new ProcessBuilder(javaBin, "-cp", classpath, className,i+"");
-				process = builder.start();
-				System.out.println("started process ");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
 	}
 
 	// Start UI
