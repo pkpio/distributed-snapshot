@@ -10,12 +10,15 @@ import com.tk.ds.common.Constants;
 
 public class UiMessageHandler implements Runnable {
 	private String threadName;
-	private DsUi snapshotUi;
+	
 	protected DatagramSocket serverSocket;
-
-	public UiMessageHandler(DsUi snapshotUi) {
+	UiUpdatesListner updateListener;
+	
+	public void addListners(UiUpdatesListner listner){
+		this.updateListener=listner;
+	}
+	public UiMessageHandler() {
 		
-		this.snapshotUi = snapshotUi;
 		
 	}
 
@@ -28,7 +31,11 @@ public class UiMessageHandler implements Runnable {
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   serverSocket.receive(receivePacket);
                   String sentence = new String( receivePacket.getData());
-                  snapshotUi.updateInfo(sentence);
+                  if(updateListener!=null)
+                	  updateListener.updateInfo(sentence);
+                  //Method to change account balance
+
+                  updateListener.updateAccountBalance(100+"", 2);
               
                   
                  

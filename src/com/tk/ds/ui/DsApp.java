@@ -20,11 +20,13 @@ public class DsApp {
 	DsUi snapshotUi;
 
 	void init() {
-		snapshotUi= new DsUi();
+		UiMessageHandler manager=new  UiMessageHandler();
+		snapshotUi= new DsUi(manager);
+		Thread S = new Thread(manager);
+		S.start();
 		snapshotUi.initUi();
 		initProcess();
-		Thread S = new Thread(new UiMessageHandler( snapshotUi));
-		S.start();
+	
 	}
 
 	@SuppressWarnings("unused")
