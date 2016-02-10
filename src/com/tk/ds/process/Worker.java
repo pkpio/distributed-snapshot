@@ -41,7 +41,7 @@ class Worker extends Process implements Runnable {
 						Sender.sendToGUI(new MessageGUI(
 								process.getProcessId(), 
 								process.getAccountBalance(),
-								"SENT " + msg.getSender() + " --> " + msg.getReceiver() + " : $" + msg.getAmount()));
+								"SENT P" + msg.getSender() + " --> P" + msg.getReceiver() + " : $" + msg.getAmount()));
 						
 						// Add message to the queue for sending out
 						System.out.println(msg.getSender() + " --> " + msg.getReceiver() + " : " + msg.getAmount());

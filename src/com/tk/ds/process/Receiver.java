@@ -75,7 +75,7 @@ class Receiver extends Process implements Runnable {
 
 		// Notify event to GUI
 		Sender.sendToGUI(new MessageGUI(process.getProcessId(), process.getAccountBalance(),
-				"GOT  " + msg.getReceiver() + " <-- " + msg.getSender() + " : $" + msg.getAmount()));
+				"GOT   P" + msg.getReceiver() + " <-- P" + msg.getSender() + " : $" + msg.getAmount()));
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Receiver extends Process implements Runnable {
 
 		// Notify event to GUI
 		Sender.sendToGUI(new MessageGUI(process.getProcessId(), process.getAccountBalance(),
-				"MARK  " + msg.getSender() + " --> " + msg.getReceiver()));
+				"MARK  P" + msg.getSender() + " --> P" + msg.getReceiver()));
 
 		// Send it for processing
 		MarkHandler.processMark(process, msg);
